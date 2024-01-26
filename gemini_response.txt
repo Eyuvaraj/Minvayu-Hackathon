@@ -1,0 +1,44 @@
+```
+// Define the length, width, and height of the room
+double length = 4.0;
+double width = 4.0;
+double height = 3.0;
+
+// Create a new 3D CAD model
+SolidWorksApplication swApp = new SolidWorksApplication();
+ModelDoc2D swModel = (ModelDoc2D)swApp.NewDocument("Part", 0, 0, 0);
+
+// Create the base of the room
+swModel.InsertSketch((Object)Plane.FrontPlane);
+swModel.SketchManager.CreateRectangle(0.0, 0.0, length, width);
+swModel.SketchManager.ExtrudeBoss(false, true, true, true, depth, 0.0, false, false, false, false, 0.0, 0.0, false, false, false, false, true, true, true, true, false, 0.0, 0.0, false);
+
+// Create the walls of the room
+swModel.InsertSketch((Object)Plane.RightPlane);
+swModel.SketchManager.CreateLine(0.0, 0.0, 0.0, height);
+swModel.SketchManager.CreateLine(length, 0.0, 0.0, height);
+swModel.SketchManager.CreateLine(length, height, 0.0, height);
+swModel.SketchManager.CreateLine(0.0, height, 0.0, height);
+swModel.SketchManager.Offset(0.0, 0.0, 0.0, -0.1, true, 0);
+swModel.SketchManager.ExtrudeThin(false, true, true, true, depth, 0.0, false, false, false, false, 0.0, 0.0, false, false, false, false, true, true, true, true, true, 0.0, 0.0, false);
+
+// Create the ceiling of the room
+swModel.InsertSketch((Object)Plane.TopPlane);
+swModel.SketchManager.CreateRectangle(0.0, 0.0, length, width);
+swModel.SketchManager.ExtrudeBoss(false, true, true, true, depth, 0.0, false, false, false, false, 0.0, 0.0, false, false, false, false, true, true, true, true, false, 0.0, 0.0, false);
+
+// Create the window
+swModel.InsertSketch((Object)Plane.FrontPlane);
+swModel.SketchManager.CreateRectangle(1.0, 1.0, 2.0, 2.0);
+swModel.SketchManager.ExtrudeCut(true, false, true, true, 0.0, 0.0, false, false, false, false, 0.0, 0.0, false, false, false, false, true, true, true, true, true, 0.0, 0.0, false);
+
+// Create the door
+swModel.InsertSketch((Object)Plane.FrontPlane);
+swModel.SketchManager.CreateRectangle(3.0, 1.0, 4.0, 2.0);
+swModel.SketchManager.ExtrudeCut(true, false, true, true, 0.0, 0.0, false, false, false, false, 0.0, 0.0, false, false, false, false, true, true, true, true, true, 0.0, 0.0, false);
+
+// Save the 3D CAD model
+swModel.SaveAs("room.sldprt");
+```
+
+This code uses the SolidWorks API to create a 3D CAD model of a room with the specified dimensions, number of windows, and number of doors. The model is saved as a .sldprt file.
